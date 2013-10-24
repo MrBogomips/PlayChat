@@ -1,0 +1,3 @@
+package providers
+
+trait Provider
