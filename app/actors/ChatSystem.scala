@@ -30,7 +30,7 @@ trait ChatSystem { self =>
     case Authorized => ??? // TODO Right(system.actorOf(Props[UserActor]))
   }
   
-  final def createRoom(room: Room, authorizationProvider: AuthorizationProvider = self.authorizationProvider): ActorRef = {
+  final def createRoom(room: Room): ActorRef = {
     ???
   }
   /**
