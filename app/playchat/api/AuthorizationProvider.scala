@@ -1,14 +1,10 @@
-package providers
+package playchat.api
 
-import models.Robot
-import models.Room
-import models.{OperationStatus, Success, Error}
-import models.User
+import playchat.models._
 
 trait AuthorizationStatus extends OperationStatus
 case object Authorized extends AuthorizationStatus with Success
 case object Unauthorized extends AuthorizationStatus with Error
-
 
 trait AuthorizationProvider extends Provider {
   def canJoinChat(user: User): AuthorizationStatus
@@ -19,7 +15,7 @@ trait AuthorizationProvider extends Provider {
   def canDestroySystemRobot(user: User, robot: Robot): AuthorizationStatus
   def canCreateRoomRobot(user: User, room: Room, robot: Robot): AuthorizationStatus
   def canDestroyRoomRobot(user: User, room: Room, robot: Robot): AuthorizationStatus
-  def canShutdownChat(user: User): Boolean
+  def canShutdownChat(user: User): AuthorizationStatus
 }
 
 trait PublicChat extends AuthorizationProvider {
@@ -28,4 +24,14 @@ trait PublicChat extends AuthorizationProvider {
 
 trait PublicRooms extends AuthorizationProvider {
   def canJoinRoom(user: User, room: Room): AuthorizationStatus = Authorized
+}
+
+object AllowEverything extends AuthorizationProvider with PublicChat with PublicRooms {
+  def canCreateRoom(user: User, room: Room): playchat.api.AuthorizationStatus = Authorized
+  def canCreateRoomRobot(user: User, room: Room, robot: Robot): playchat.api.AuthorizationStatus = Authorized
+  def canCreateSystemRobot(user: User, robot: Robot): playchat.api.AuthorizationStatus = Authorized
+  def canDestroySystemRobot(user: User, robot: Robot): AuthorizationStatus = Authorized
+  def canDestroyRoom(user: User, room: Room): playchat.api.AuthorizationStatus = Authorized
+  def canDestroyRoomRobot(user: User, room: Room, robot: Robot): playchat.api.AuthorizationStatus = Authorized
+  def canShutdownChat(user: User): AuthorizationStatus = Authorized
 }

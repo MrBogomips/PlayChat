@@ -1,4 +1,4 @@
-package models
+package playchat.models
 
 trait OperationStatus
 trait Success extends OperationStatus

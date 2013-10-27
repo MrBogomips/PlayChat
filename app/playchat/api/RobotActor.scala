@@ -1,16 +1,7 @@
-package actors
-
-import play.api.Play.current
-import play.api.libs.iteratee.{Iteratee, Concurrent, Enumerator}
-import play.api.libs.json.JsValue
-
-import akka.actor.Actor
+package playchat.api
 import akka.actor.ActorRef
-
 import com.typesafe.config._
-
-import models.User
-import models.Robot
+import playchat.models._
 
 /**
  * Robot actor mimic a user actor in the sense it's honor the
